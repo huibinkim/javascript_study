@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../style/reset.css">
+    <style>
+
+    </style>
+</head>
+<body>
+    <form action="" id="form">
+        <input type="text" placeholder="할일을 입력하세요."
+                autocomplete="off"
+        >
+    </form>
+
+    <ul id="todo-list">
+        <!-- <li><span> html 공부하기</span> <button>삭제</button></li> -->
+    </ul>
+    <script>
+        const form = document.querySelector('#form');
+        const todoInput = document.querySelector('#form input');
+        const todoList = document.querySelector('#todo-list');
+
+        let toDos = [];
+        form.addEventListener('submit', (event)=>{
+            event.preventDefault();
+
+            const newText = {
+                text: todoInput.value,
+                id:new Date()
+            }
+
+            toDos.push( newText );
+            localStorageSave();
+            todoInput.value="";
+        })
+
+        function localStorageSave(){
+            localStorage.setItem( 'todos', JSON.stringify( toDos ));
+            printScreen(toDos);
+        }
+       
+        function printScreen(todos){
+            todoList.innerHTML = '';
+
+            todos.forEach( todo =>{
+                const li = document.createElement('li');
+                const span = document.createElement('span');
+                const button = document.createElement('button');
+                button.addEventListener( 'click', deleteHandle);
+
+                span.innerHTML = todo.text; 
+                button.innerHTML = '삭제'; 
+                li.appendChild(span);
+                li.appendChild(button);
+
+                todoList.appendChild( li );
+            })
+        }
+
+        function deleteHandle(event){
+            console.log(event.target.parentElement.firstElementChild.innerHTML);
+            const deleteText = event.target.parentElement.firstElementChild.innerHTML; 
+            // event.target.parentElement.remove();
+            const filterTodos = toDos.filter( todo => todo.text !== deleteText );
+            toDos = filterTodos; 
+            // printScreen(toDos);
+            // localStorage.setItem( 'todos', JSON.stringify( toDos ));
+            localStorageSave();
+        }
+
+        // reload, 맨처음 뜰때 한번 처리 
+        toDos = JSON.parse(localStorage.getItem('todos' ));
+        printScreen(toDos); 
+    </script>
+</body>
+</html>

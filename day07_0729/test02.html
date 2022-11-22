@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../style/reset.css">
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        header{ 
+            width:100%; 
+            height: 100vh;
+            background-color: bisque;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url(./images/linus-nylund.jpg);
+            background-position: left -1100px;
+        }
+        h2{ font-size: 100px;}
+        #sectionTodos{ height: 100vh; }
+
+        .koreaMessage{ width: 800px; margin: 50px auto; 
+            background-color: antiquewhite;
+        }
+        .koreaMessage button{ padding: 10px; margin: 10px; }
+        .author, .message{ padding:10px; }
+
+        .tableMessageList{ width: 1200px; margin: auto;}
+        .tableMessageList th:nth-of-type(1),
+        .tableMessageList td:nth-of-type(1){ width: 50px;   }
+        .tableMessageList th:nth-of-type(2),
+        .tableMessageList td:nth-of-type(2){ width: 100px; }
+        .tableMessageList th:nth-of-type(3),
+        .tableMessageList td:nth-of-type(3){ width: calc( 100% - 350px ); 
+            padding: 10px 20px; 
+            text-align: left;
+        }
+        .tableMessageList th:nth-of-type(4),
+        .tableMessageList td:nth-of-type(4){ width: 100px; }
+        .tableMessageList th:nth-of-type(5),
+        .tableMessageList td:nth-of-type(5){ width: 50px;    }
+        .tableMessageList td,
+        .tableMessageList th { 
+            border:1px solid rgb(228, 228, 228); 
+            text-align: center;
+        }
+        .tableMessageList table{ border-collapse: collapse;}
+    </style>
+</head>
+<body>
+    <header>
+        <h2 class="times"></h2>
+        
+        
+    </header>
+    <section id="sectionTodos">
+        <form action="" id="todoForm">
+            <input type="text" id="todo" placeholder="스케쥴을 입력하세요."
+                autocomplete="off"
+            >
+        </form>
+        <div class="todos">
+            <ul>
+                <!-- <li>
+                    <input type="checkbox">
+                    <label>text</label>
+                    <button>삭제</button>
+                </li> -->
+            </ul>
+        </div>
+    </section>
+    <section>
+        <div class="koreaMessage">
+            <button class="reloadBtn"><i class='bx bx-loader'></i> 새로고침</button>
+            <div>
+                <div class="author"></div>
+                <div class="message"></div>
+            </div>
+        </div>
+        <div class="tableMessageList">
+            <table>
+                <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>명언 저작자</th>
+                        <th>명언</th>
+                        <th>날짜</th>
+                        <th>좋아요</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- <tr>
+                        <td>번호</td>
+                        <td>저작자</td>
+                        <td>내용</td>
+                        <td>날짜</td>
+                        <td>좋아요</td>
+                    </tr> -->
+                </tbody>
+            </table>
+        </div>
+    
+    </section>
+    <script>
+        const todoForm = document.querySelector('#todoForm');
+        const todos = document.querySelector('.todos');
+
+        let todosList = []; // 스케쥴을 저장할 곳 
+        const todo = document.querySelector('#todo');
+
+        todoForm.addEventListener('submit', (event)=>{
+            event.preventDefault(); 
+            
+            // 배열에 저장하고 
+            todosList.push( todo.value );
+        
+
+            todos.innerHTML = '';
+            //출력은 별도 
+            todosList.map( list => {
+                todosHandle(list);
+                // 배열에 저장되어 있는 하나의 데이터
+            }) 
+        })
+
+        const todosHandle = (list)=>{
+            const li = document.createElement('li');
+            const input = document.createElement('input');
+            input.setAttribute('type', 'checkbox');
+
+            const label = document.createElement('label');
+            const button = document.createElement('button');
+
+            // label.innerHTML = todo.value; // 입력한 데이터 가져오기 
+            label.innerHTML = list; // 입력한 데이터 가져오기 
+            button.innerHTML = '삭제';
+
+            //console.log( label ) ;
+            li.appendChild( input );
+            li.appendChild(label);
+            li.appendChild(button);
+
+            todos.appendChild(li);
+
+            todo.value = '';
+        }
+    </script>
+    <script>
+        const reloadBtn = document.querySelector('.reloadBtn');
+        const author = document.querySelector('.author');
+        const message = document.querySelector('.message');
+        let messageDatas = [];
+
+        const messageList = ()=>{
+            fetch("./data/koreaData.json")
+            .then( datas => datas.json() )
+            .then( datas =>{ 
+                // console.log(datas);
+                messageDatas = datas; 
+
+                screenPrint();
+                screenPrintList();
+            })
+        }
+
+        const screenPrintList = ()=>{
+            const tbody = document.querySelector('tbody');
+
+            messageDatas.map( ( data, i )=>{
+                const tr = document.createElement('tr'); // tr태그 만들기 
+                const tdNum = document.createElement('td'); // td태그 만들기
+                const tdAuth = document.createElement('td'); // td태그 만들기
+                const tdMsg = document.createElement('td'); // td태그 만들기
+                const tdDate = document.createElement('td'); // td태그 만들기
+                const tdGood = document.createElement('td'); // td태그 만들기
+
+                tdNum.innerHTML = i; // td에 데이터 쓰기 
+                tdAuth.innerHTML = data.author;
+                tdMsg.innerHTML = data.message; 
+                tdDate.innerHTML = datePrint(); // 날짜를 제작해서 호출 
+                tdGood.innerHTML = 0; 
+                // console.log(tdNum);
+
+                tr.appendChild( tdNum);  // tr에 td 넣기 
+                tr.appendChild( tdAuth);
+                tr.appendChild( tdMsg);
+                tr.appendChild( tdDate);
+                tr.appendChild( tdGood);
+
+                tbody.appendChild(tr); // 화면에 뿌리기 
+            })
+        }
+
+        const screenPrint = ()=>{
+            const num = numberFind();
+            // console.log(messageDatas[num].author, messageDatas[num].message)
+            author.innerHTML = messageDatas[num].author;
+            message.innerHTML = messageDatas[num].message;
+        }
+
+        reloadBtn.addEventListener('click', screenPrint );
+        
+        messageList(); 
+
+        const numberFind = ()=>{
+            const num = Math.floor(Math.random()*593); 
+            //console.log(num);
+            return num; 
+        }
+
+        const datePrint = ()=>{
+            const today = new Date(); 
+            const year =  today.getFullYear() ;
+            const month =  (today.getMonth() + 1).toString().padStart(2, '0') ;
+            //const month =  '${today.getMonth() + 1}'.padStart(2, '0') ;
+            const date =  today.getDate() ;
+            const day = weekDay( today.getDay() ) ; // 요일 반환
+
+            return   year + '-' + month + '-' + date + ' ' + day; 
+            // 2020-10-20 금요일
+        }
+
+        const weekDay = (day)=>{
+            let week = '';
+            switch(day){
+                case 0 : week = '일' ; break; 
+                case 1 : week = '월' ; break; 
+                case 2 : week = '화' ; break; 
+                case 3 : week = '수' ; break; 
+                case 4 : week = '목' ; break; 
+                case 5 : week = '금' ; break; 
+                case 6 : week = '토' ; break; 
+            }
+            return week + '요일'; 
+            //return week; 
+        }
+
+        datePrint();
+
+        const times = document.querySelector('.times');
+        
+        const timePrint = ()=>{
+            const times = new Date(); 
+            const hours = times.getHours().toString().padStart(2, '0') ;
+            const minutes = times.getMinutes().toString().padStart(2, '0') ;
+            const seconds = times.getSeconds().toString().padStart(2, '0') ;
+
+            // console.log(hours + ':' + minutes + ":" + seconds); 
+            return (hours + ':' + minutes + ":" + seconds); 
+        }
+        
+        setInterval(()=>{
+            times.innerHTML = timePrint();
+        }, 1000)
+    </script>
+</body>
+</html>

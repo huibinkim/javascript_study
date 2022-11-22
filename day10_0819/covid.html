@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>covid19</title>
+</head>
+<style>
+
+</style>
+<body>
+  <h1>코로나 감염현황</h1>
+  <div class="covidGraph">
+    <div class="state_time">날짜 : <span></span> </div>
+    <div class="decide_cnt">확진자 수 : <span></span> </div>
+    <div class="death_cnt">사망자 수 : <span></span> </div>
+    <div class="acc_def_rate">누적 확진률 : <span></span> </div>
+  </div>
+
+  <script src="./data/script.js"></script>
+  <script>
+    fetch( API_URL )
+    .then(data=>data.json())
+    .then(data => {
+      console.log(data);
+
+      
+    })
+
+
+
+
+  </script>
+
+
+</body>
+</html>

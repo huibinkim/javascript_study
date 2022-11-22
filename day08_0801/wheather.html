@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>오늘의 날씨</h1>
+    <div class="wheatherLog">
+        <div class="local"> 지역 : <span></span></div>
+        <div class="temp"> 온도 : <span></span></div>
+        <div class="temp-max"> 최고온도 : <span></span></div>
+        <div class="temp-min"> 최저온도 : <span></span></div>
+        <img class="img-icon" src="" alt="">
+        <div class="icon"></div>
+    </div>
+    
+
+    <script src="./script.js"></script>
+    <script>
+        navigator.geolocation.getCurrentPosition((position) => {
+                console.log(position.coords.latitude, position.coords.longitude);
+        });
+             
+        fetch( API_URL )
+        .then( data=>data.json())
+        .then( data => {
+            console.log(data);
+            const local = document.querySelector('.local  span');
+            const temp = document.querySelector('.temp span');
+            const tempMax = document.querySelector('.temp-max span');
+            const tempMin = document.querySelector('.temp-min span');
+            const imgIcon = document.querySelector('.img-icon');
+            local.innerHTML = data.name;
+            temp.innerHTML = data.main.temp;
+            tempMax.innerHTML = data.main.temp_max;
+            tempMin.innerHTML = data.main.temp_min;
+
+            //const src= `http://openweathermap.org/img/wn/${data.weather[0].icon}.png`;
+            const src= 'https://openweathermap.org/img/wn/'+data.weather[0].icon+'.png';
+            imgIcon.setAttribute('src', src);
+            imgIcon.setAttribute('alt', data.weather[0].main );
+
+            const icon = document.querySelector('.icon');
+            //icon.innerHTML = "#"+data.weather[0].icon; // 유니코드 
+        })
+
+    </script>
+    <!-- `
+        https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
+        https://api.openweathermap.org/data/2.5/weather?lat=37.5605672&lon=126.9433486&appid=cd9b3338114adaf4b6459ba88393a631
+        cd9b3338114adaf4b6459ba88393a631 
+        navigator.geolocation.getCurrentPosition((position) => {
+                console.log(position.coords.latitude, position.coords.longitude);
+        });
+    -->
+</body>
+</html>

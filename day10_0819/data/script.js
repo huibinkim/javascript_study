@@ -1,0 +1,1 @@
+const API_URL = 'http://apis.data.go.kr/1400000/service/한산&ServiceKey=c808kVZ0KViWV7Sm8J22nV0ewrlukuBkVCD7ttnRTryvXRmwXh2CigLeIi6i1QJybmaON2tp4gG9sT%2BK7tDV1Q%3D%3D&numOfRows=10&pageNo=1&examdate=2017-12-27'cultureInfoService/mntInfoOpenAPI?searchWrd=북

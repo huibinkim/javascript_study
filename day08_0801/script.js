@@ -1,0 +1,1 @@
+const API_URL = 'https://api.openweathermap.org/data/2.5/weather?lat=37.5605672&lon=126.9433486&appid=cd9b3338114adaf4b6459ba88393a631';

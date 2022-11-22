@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../style/reset.css">
+    <style>
+
+    </style>
+</head>
+<body>
+    <div class="koreaMessage">
+        <button class="reloadBtn">새로고침</button>
+        <div>
+            <div class="author"></div>
+            <div class="message"></div>
+        </div>
+    </div>
+
+    <!-- <script src="./data/koreaData.json"></script> -->
+    <script>
+        const reloadBtn = document.querySelector('.reloadBtn');
+        const author = document.querySelector('.author');
+        const message = document.querySelector('.message');
+        let messageDatas = [];
+
+        const messageList = ()=>{
+            fetch("./data/koreaData.json")
+            .then( datas => datas.json() )
+            .then( datas =>{ 
+                console.log(datas);
+                messageDatas = datas; 
+
+                screenPrint();
+            })
+        }
+
+        const screenPrint = ()=>{
+            const num = numberFind();
+            // console.log(messageDatas[num].author, messageDatas[num].message)
+            author.innerHTML = messageDatas[num].author;
+            message.innerHTML = messageDatas[num].message;
+        }
+
+        reloadBtn.addEventListener('click', screenPrint );
+        
+        messageList(); 
+
+        const numberFind = ()=>{
+            const num = Math.floor(Math.random()*593); 
+            console.log(num)
+            // 반올림 Math.round() : 4이하는 버리고 5이상은 올림
+            // 내림   Math.floor() : 1~9 모두 내림 
+            // 올림   Math.ceil() : 1~9 모두 올림 // pagenation처리 
+            return num; 
+        }
+
+        setInterval(()=>{
+           //numberFind()
+        }, 1000)
+    </script>
+</body>
+</html>

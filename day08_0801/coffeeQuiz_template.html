@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: #b8c6db;
+            background-image: linear-gradient(315deg, #b8c6db 0%, #f5f7f7 100%);
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
+            color: #545960;
+        }
+
+        .intro {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px 2px rgba(100, 100, 100, 0.1);
+            width: 600px;
+            overflow: hidden;
+            text-align: center;
+            padding: 50px 0;
+        }
+
+        .qna {
+            display: none;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px 2px rgba(100, 100, 100, 0.1);
+            width: 800px;
+            overflow: hidden;
+            text-align: center;
+            padding: 50px 0;
+        }
+
+
+        .intro button {
+            padding: 10px;
+            border: none;
+            background: linear-gradient(45deg, #FBDA61, #FF5ACD);
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+
+        .nextBtn {
+            display: none;
+        }
+
+        .status {
+            height: 10px;
+            width: 80%;
+            margin: 0 auto;
+            background-color: #FF5ACD;
+            display: block;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .statusBar {
+            height: 100%;
+            width: 50%;
+            border-radius: 10px;
+            background-color: #FBDA61;
+        }
+
+        .qBox {
+            margin-bottom: 20px;
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        .answerBox button {
+            width: 70%;
+            height: 40px;
+            margin: 5px auto;
+            background-color: #f5f7f7;
+            border: 1px solid #FFDEE9;
+            color: #545960;
+            font-weight: bold;
+            border-radius: 10px;
+        }
+
+        .answerBox button:hover {
+            background-color: #b8c6db;
+            color: #FBDA61;
+        }
+
+        .dBox {
+            background-color: #f5f7f7;
+        }
+
+        .comment {
+            background-color: #FFDEE9;
+        }
+
+        .result-container {
+            width: 800px;
+            display: block;
+            height: 80%;
+            overflow: auto;
+            padding: 20px;
+            font-size: 12px;
+            display: none;
+        }
+
+        .result-container::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .result-container::-webkit-scrollbar-thumb {
+            background-color: #FF5ACD;
+            border-radius: 10px;
+            background-clip: padding-box;
+            border: 2px solid transparent;
+        }
+
+        .result-container::-webkit-scrollbar-track {
+            background-color: #FBDA61;
+            border-radius: 10px;
+            box-shadow: inset 0px 0px 5px white;
+        }
+
+        .result {
+            display: block;
+        }
+
+        .dBox {
+            padding: 10px;
+        }
+
+        .comment {
+            padding: 10px;
+        }
+
+        .qName {
+            font-weight: bold;
+        }
+
+        .totalCount {
+            padding: 10px;
+            font-size: 14px;
+            background-color: #FF5ACD;
+            border-radius: 15px;
+            color: #fff;
+            font-weight: bold;
+            margin: 10px;
+        }
+    </style>
+</head>
+<!-- 진행 상태바 구현하기  -->
+
+<body>
+    <!-- MBTI -->
+    <div class="intro">
+        <h1>터키식 커피 퀴즈 </h1>
+        <p>여러분은 이 맛있는 음료에 대해 얼마나 알고 있나요?</p>
+        <button class="startBtn">시작하기</button>
+    </div>
+    <div class="qna">
+
+        <div class="status">
+            <div class="statusBar"></div>
+        </div>
+
+        <div class="qBox"></div>
+        <div class="answerBox">
+            <!-- 클릭할 수 있도록 버튼으로 제작할 것  -->
+        </div>
+        <button class="nextBtn">다음 문제</button>
+    </div>
+    <div class="result-container">
+        <div class="result">
+            <!-- <div class="dBox"></div>
+            <div class="comment"></div> -->
+        </div>
+    </div>
+    <script>
+        const data = [
+            {
+                q: "역사학자들에 따르면 최초의 커피 작물은 어디에서 생산되었습니까?",
+                a: [
+                    {
+                        answer: "예멘",
+                    },
+                    {
+                        answer: "베트남",
+                    },
+                    {
+                        answer: "인도네시아",
+                    },
+                ],
+                comment: "최초의 커피 작물은 14세기와 15세기에 예멘 지역에서 시작되었습니다. 16세기에 이르러 커피는 터키의 이스탄불 지역에 도달했고, 그 후 이집트의 수도 카이로에 도달하여 제품 유통의 가장 큰 시장으로 자리 매김했습니다.",
+                d: "예멘"
+            },
+            {
+                q: "커피는 처음에 어떻게 마셨어요?",
+                a: [
+                    {
+                        answer: "구운 후 양조",
+                    },
+                    {
+                        answer: "와인처럼 발효됨",
+                    },
+                    {
+                        answer: "향신료와 함께 구워짐",
+                    },
+                ],
+                comment: "커피를 마시는 것에 대한 가장 초기의 믿을 만한 증거는 아라비아에서 15세기 중반에 나타납니다. 커피 씨앗이 처음 볶아지고 지금과 비슷한 방식으로 양조된 곳이 바로 이곳입니다.",
+                d: "구운 후 양조"
+            },
+            {
+                q: "커피'라는 이름은 아랍어 단어에서 온 것인데, 다음 중 어떤 단어에서 온 것입니까?",
+                a: [
+                    {
+                        answer: "차",
+                    },
+                    {
+                        answer: "씨앗",
+                    },
+                    {
+                        answer: "강도",
+                    },
+                ],
+                comment: "아라비아에서는 커피를 Kahwah 또는 Cahue(또는 원래 아랍어 شهوة의 Qah'wa)로 명명했는데, 이는 '강도'를 의미합니다. 이탈리아어 터키어로 카베(Kahve)로 알려졌으며 원래 의미는 '와인'일 수도 있습니다.",
+                d: "강도"
+            },
+            {
+                q: "세계 최초의 커피숍이 문을 연 곳은 어디인가요?",
+                a: [
+                    {
+                        answer: "에티오피아",
+                    },
+                    {
+                        answer: "이집트",
+                    },
+                    {
+                        answer: "터키",
+                    },
+                ],
+                comment: "세계 최초의 커피숍인 Kiva Han은 1495년에 지금의 이스탄불이 된 콘스탄티노플에 문을 열었습니다.",
+                d: "터키"
+            },
+            {
+                q: "이 나라들 중 세계에서 가장 큰 커피 생산국은 어디일까요?",
+                a: [
+                    {
+                        answer: "베트남",
+                    },
+                    {
+                        answer: "독일",
+                    },
+                    {
+                        answer: "네덜란드",
+                    },
+                ],
+                comment: "오늘날 세계 최대 커피 생산국은 브라질로 생산량의 약 3분의 1을 차지합니다. 다른 주요 생산국은 베트남, 콜롬비아 및 멕시코입니다. 또한 작은 나라는 하와이, 코스타리카, 과테말라, 자메이카, 에티오피아, 케냐, 예멘, 인도네시아입니다.",
+                d: "베트남"
+            },
+            {
+                q: "이 나라들 중 세계에서 가장 큰 커피 생산국은 어디일까요?",
+                a: [
+                    {
+                        answer: "1986",
+                    },
+                    {
+                        answer: "2002",
+                    },
+                    {
+                        answer: "2013",
+                    },
+                ],
+                comment: "2013년에 터키 커피는 유네스코에 의해 인류의 무형 문화 유산으로 지정되었습니다. 이 유산의 이름은 '터키 커피의 문화와 전통'입니다.",
+                d: "2013"
+            },
+            {
+                q: "터키식 커피와 다른 커피 준비물의 차이점은 무엇인가요?",
+                a: [
+                    {
+                        answer: "향료가 들어가지 않은 순수한 커피 가루",
+                    },
+                    {
+                        answer: "커피는 차갑게 제공된다.",
+                    },
+                    {
+                        answer: "물은 커피와 함께 끓인다",
+                    },
+                ],
+                comment: "오늘날 세계 최대 커피 생산국은 브라질로 생산량의 약 3분의 1을 차지합니다. 다른 주요 생산국은 베트남, 콜롬비아 및 멕시코입니다. 또한 작은 나라는 하와이, 코스타리카, 과테말라, 자메이카, 에티오피아, 케냐, 예멘, 인도네시아입니다.터키식 커피는 초미세 분쇄 커피 콩('스프레이 커피'라고 함)으로 만든 매우 강한 농도가 특징입니다. 이 방법과 다른 방법의 가장 큰 차이점은 물을 여과하지 않고 커피와 함께 끓인다는 것입니다. 카다멈, 계피, 스타아니스와 같은 향신료를 첨가하면 터키 음료를 준비할 때 존재감을 나타내어 특별한 맛과 향을 보장합니다.",
+                d: "물은 커피와 함께 끓인다"
+            },
+            {
+                q: "커피는 두 종류가 있는데 하나는 아라비카, 다른 하나는 무엇입니까?",
+                a: [
+                    {
+                        answer: "콜롬비아",
+                    },
+                    {
+                        answer: "로부스타",
+                    },
+                    {
+                        answer: "인테스",
+                    },
+                ],
+                comment: "아라비카는 세계 커피 생산량의 대부분을 대표하는 가장 전통적인 커피입니다. 그것은 더 섬세하고 입맛에 더 맞습니다. 카네포라 또는 로부스타는 아라비카에 비해 카페인이 50~60% 더 많고 향도 약간 더 강합니다. 그것은 인스턴트 커피를 만드는 데 널리 사용됩니다.",
+                d: "로부스타"
+            },
+            {
+                q: "Kopi Luwak 커피는 무엇으로도 알려져 있습니까?",
+                a: [
+                    {
+                        answer: "카쿠커피",
+                    },
+                    {
+                        answer: "시빗커피",
+                    },
+                    {
+                        answer: "아시안커피",
+                    },
+                ],
+                comment: "사향고양이 배설물로 만드는 ‘시벳커피’는 필리핀산보다는 인도네시아산 ‘코피루왁’으로 알려져 있다.",
+                d: "시빗커피"
+            },
+            {
+                q: "Kopi Luwak 커피는 무엇으로도 알려져 있습니까?",
+                a: [
+                    {
+                        answer: "바리스타(Barista)",
+                    },
+                    {
+                        answer: "Oenologist",
+                    },
+                    {
+                        answer: "믹솔로지스트(Mixologist)",
+                    },
+                ],
+                comment: "바리스타라는 단어는 이탈리아어 '바리스티'에서 왔고 '커피 만드는 전문가'를 의미한다. 그러나 바리스타들은 그것보다 훨씬 더 뛰어나며, 그들은 우수한 품질의 커피를 독특한 음료로 변화시키는 데 전문가들이다.",
+                d: "바리스타(Barista)"
+            },
+        ]
+    </script>
+    <script>
+        const startBtn = document.querySelector('.startBtn');
+        let count = 0; 
+        const qBox = document.querySelector('.qBox');
+        const answerBox = document.querySelector('.answerBox');
+        const qna = document.querySelector('.qna');
+        const statusBar = document.querySelector('.statusBar');
+        //statusBar.style.width = ( 100 / 10 ) * (count + 1) + '%'; 
+        const qValue = [];
+
+        startBtn.addEventListener('click', ()=>{
+            document.querySelector('.intro').style.display = 'none';
+            qna.style.display = 'block';
+        
+            // data.forEach( quiz => {
+            //     qBox.innerHTML = quiz.q; 
+            // })
+            quizHandle( data[count] )   ;
+        })
+
+        function quizHandle( quiz ){
+             qBox.innerHTML = quiz.q; 
+             statusBar.style.width = ( 100 / 10 ) * (count + 1) + '%'; 
+
+             answerBox.innerHTML = '';
+             quiz.a.forEach( a => {
+                   const button = document.createElement('button');
+                   button.addEventListener('click' , function(event){
+                        console.log( event.target.innerHTML );
+                        qValue.push( event.target.innerHTML ); // 정답을 정하는 배열 
+
+                        if( count < data.length  ){
+                            count++;
+                            quizHandle( data[count]);
+                        }else{
+                            qna.style.display = 'none';
+                            document.querySelector('.result-container').style.display = 'block';
+                            document.querySelector('.result-container').innerHTML = 'test';
+                            confirmHandle();
+                            // 함수를 호출 해서 정답 확인 함 
+                        }
+                   })
+                   button.innerHTML = a.answer;
+                   answerBox.appendChild( button );
+             });
+        }
+
+        function  confirmHandle(){
+            data.forEach( ( quiz, i )=>{
+                if( quiz.d === qValue[i] ){
+                    console.log( '정답입니다. ')
+                }else{
+                    console.log('다시한번 확인하세요.')
+                }
+            })               
+        }
+    </script>
+</body>
+
+</html>
