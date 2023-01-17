@@ -5,91 +5,50 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../style/reset.css">
+    <!-- <link rel="stylesheet" href="../style/reset.css"> -->
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
     <style>
-        header{ 
-            width:100%; 
-            height: 100vh;
-            background-color: bisque;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-image: url(./images/linus-nylund.jpg);
-            background-position: left -1100px;
-        }
-        h2{ font-size: 100px;}
-        #sectionTodos{ height: 100vh;
-            background-color: skyblue;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .todos-form{ width: 400px; }
-        #todo-list li{ 
-                display: flex; justify-content: space-between;
-                width: 100%; 
-                line-height: 40px;
-                align-items: center;
-                background-color: rgba(240, 248, 255, 0.596);
-                margin: 5px;
-                padding: 0 10px;
-                border-radius: 5px;
-        }
-        .todos-form input{ width: 100%; height: 40px;
-            border: 1px solid rgba(240, 248, 255, 0.596);
-            border-radius: 5px;
-            margin-left:5px;
-            padding-left: 10px;
-        }
+        header{ display: flex; justify-content:center; align-items:center; width:100%; height:100vh;  background-color:rgb(24, 24, 23);}
+        h2{ font-size:100px;}
+        #section-todos{ display:flex; justify-content:center; align-items:center; height:100vh; background-color:skyblue; }
+        .todos-form{ width:400px; }
+        .todos-form input{ margin-left:5px; padding-left:10px; width:100%; height:40px; border: 1px solid rgba(240, 248, 255, 0.596); border-radius:5px; }
 
-        .koreaMessage{ width: 800px; margin: 50px auto; 
-            background-color: antiquewhite;
-        }
-        .koreaMessage button{ padding: 10px; margin: 10px; }
+        .koreaMessage{ margin:50px auto;  width:800px; background-color:antiquewhite; }
+        .koreaMessage button{ padding:10px; margin:10px; }
         .author, .message{ padding:10px; }
 
-        .tableMessageList{ width: 1200px; margin: auto;}
+        .tableMessageList{ display:none; width:1200px; margin:auto; }
         .tableMessageList th:nth-of-type(1),
-        .tableMessageList td:nth-of-type(1){ width: 50px;   }
+        .tableMessageList td:nth-of-type(1) { width:50px; }
         .tableMessageList th:nth-of-type(2),
-        .tableMessageList td:nth-of-type(2){ width: 100px; }
+        .tableMessageList td:nth-of-type(2) { width:100px; }
         .tableMessageList th:nth-of-type(3),
-        .tableMessageList td:nth-of-type(3){ width: calc( 100% - 350px ); 
-            padding: 10px 20px; 
-            text-align: left;
-        }
+        .tableMessageList td:nth-of-type(3) { width:calc( 100% - 350px ); padding:10px 20px; text-align:left; }
         .tableMessageList th:nth-of-type(4),
-        .tableMessageList td:nth-of-type(4){ width: 100px; }
+        .tableMessageList td:nth-of-type(4) { width:100px; }
         .tableMessageList th:nth-of-type(5),
-        .tableMessageList td:nth-of-type(5){ width: 50px;    }
-        .tableMessageList td,
-        .tableMessageList th { 
-            border:1px solid rgb(228, 228, 228); 
-            text-align: center;
-        }
-        .tableMessageList table{ border-collapse: collapse;}
+        .tableMessageList td:nth-of-type(5) { width:50px; }
+        .tableMessageList td, .tableMessageList th { border:1px solid rgb(228, 228, 228); text-align: center; }
+        .tableMessageList table{ border-collapse: collapse; }
     </style>
 </head>
 <body>
     <header>
         <h2 class="times"></h2>
-        
-        
     </header>
-    <section id="sectionTodos">
+
+    <section id="section-todos">
         <div class="todos-form">
             <form action="" id="form">
-                <input type="text" placeholder="할일을 입력하세요."
-                        autocomplete="off"
-                >
+                <input type="text" placeholder="할일을 입력하세요." autocomplete="off">
             </form>
-        
             <ul id="todo-list">
-                <!-- <li><span> html 공부하기</span> <button>삭제</button></li> -->
+                <li><span> html 공부하기</span> <button>삭제</button></li>
             </ul>
         </div>
     </section>
+
     <section>
         <div class="koreaMessage">
             <button class="reloadBtn"><i class='bx bx-loader'></i> 새로고침</button>
@@ -97,7 +56,9 @@
                 <div class="author"></div>
                 <div class="message"></div>
             </div>
+
         </div>
+
         <div class="tableMessageList">
             <table>
                 <thead>
@@ -255,10 +216,10 @@
             printScreen(toDos);
         }
        
-        function printScreen(todos){
+        function printScreen(toDos){
             todoList.innerHTML = '';
 
-            todos.forEach( todo =>{
+            toDos.forEach( todo =>{
                 const li = document.createElement('li');
                 const span = document.createElement('span');
                 const button = document.createElement('i');

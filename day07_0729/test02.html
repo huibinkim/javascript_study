@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../style/reset.css">
+    <link rel="stylesheet" href="./css/reset.css">
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
     <style>
         header{ 
@@ -19,14 +19,14 @@
             background-position: left -1100px;
         }
         h2{ font-size: 100px;}
-        #sectionTodos{ height: 100vh; }
+        #sectionTodos{  width:100%; height:100vh;   }
 
         .koreaMessage{ width: 800px; margin: 50px auto; 
             background-color: antiquewhite;
         }
         .koreaMessage button{ padding: 10px; margin: 10px; }
         .author, .message{ padding:10px; }
-
+        /* .todos input[type='checkbox'] {border:1px solid beige;} */
         .tableMessageList{ width: 1200px; margin: auto;}
         .tableMessageList th:nth-of-type(1),
         .tableMessageList td:nth-of-type(1){ width: 50px;   }
@@ -52,22 +52,20 @@
 <body>
     <header>
         <h2 class="times"></h2>
-        
-        
     </header>
     <section id="sectionTodos">
         <form action="" id="todoForm">
-            <input type="text" id="todo" placeholder="스케쥴을 입력하세요."
+            <input type="text" id="todo" placeholder="할 일을 입력하세요."
                 autocomplete="off"
             >
         </form>
         <div class="todos">
             <ul>
-                <!-- <li>
+                <li>
                     <input type="checkbox">
                     <label>text</label>
                     <button>삭제</button>
-                </li> -->
+                </li>
             </ul>
         </div>
     </section>
@@ -138,13 +136,16 @@
             button.innerHTML = '삭제';
 
             //console.log( label ) ;
-            li.appendChild( input );
+            li.appendChild(input);
             li.appendChild(label);
             li.appendChild(button);
 
             todos.appendChild(li);
 
             todo.value = '';
+            button.click(function(){
+                this.list.remove();
+            })
         }
     </script>
     <script>
